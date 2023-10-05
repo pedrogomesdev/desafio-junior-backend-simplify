@@ -1,0 +1,1 @@
+insert into tarefa (prioridade, realizado, descricao, nome) values (1, 1, 'Metodo GET', 'GET');
