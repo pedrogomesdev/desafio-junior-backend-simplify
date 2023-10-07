@@ -1,6 +1,8 @@
 package com.pedrogomesdev.todolist.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +18,16 @@ public class TarefaController {
 
 	@Autowired
 	private TarefaService service;
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TarefaDTO> getID(@PathVariable Long id) {
 		TarefaDTO dto = service.methodGet(id);
 		return ResponseEntity.ok(dto);
 	}
-	
+
+	@GetMapping
+	public ResponseEntity<Page<TarefaDTO>> getIdAll(Pageable page) {
+		Page<TarefaDTO> dto = service.methodGetAll(page);
+		return ResponseEntity.ok(dto);
+	}
 }

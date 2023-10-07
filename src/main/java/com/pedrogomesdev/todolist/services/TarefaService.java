@@ -1,6 +1,8 @@
 package com.pedrogomesdev.todolist.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,4 +22,9 @@ public class TarefaService {
 		return new TarefaDTO(entity);
 	}
 	
+	@Transactional(readOnly = true)
+	public Page<TarefaDTO> methodGetAll(Pageable page) {
+		Page<Tarefa> entity = repository.findAll(page);
+		return entity.map(x -> new TarefaDTO(x));
+	}
 }
