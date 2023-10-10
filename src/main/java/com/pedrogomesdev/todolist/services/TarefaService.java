@@ -27,4 +27,5 @@ public class TarefaService {
 		Page<Tarefa> entity = repository.findAll(page);
 		return entity.map(x -> new TarefaDTO(x));
 	}
+
 }
