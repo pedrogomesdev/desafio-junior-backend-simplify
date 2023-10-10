@@ -1,5 +1,6 @@
 package com.pedrogomesdev.todolist.services;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public class TarefaService {
 	@Autowired
 	private TarefaRepository repository;
 	
+	private final ModelMapper modelMapper = new ModelMapper();
+	
 	@Transactional(readOnly = true)
 	public TarefaDTO methodGet(Long id) {
 		Tarefa entity = repository.findById(id).orElseThrow();
@@ -26,6 +29,13 @@ public class TarefaService {
 	public Page<TarefaDTO> methodGetAll(Pageable page) {
 		Page<Tarefa> entity = repository.findAll(page);
 		return entity.map(x -> new TarefaDTO(x));
+	}
+	
+	@Transactional
+	public TarefaDTO insert(TarefaDTO dto) {
+		Tarefa entity = modelMapper.map(dto, Tarefa.class);
+		entity = repository.save(entity);
+		return new TarefaDTO(entity);
 	}
 
 }
