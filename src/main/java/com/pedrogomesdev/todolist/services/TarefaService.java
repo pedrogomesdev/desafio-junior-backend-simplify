@@ -37,5 +37,13 @@ public class TarefaService {
 		entity = repository.save(entity);
 		return new TarefaDTO(entity);
 	}
+	
+	@Transactional
+	public TarefaDTO update(Long id, TarefaDTO dto) {
+		Tarefa entity = repository.getReferenceById(id);
+		entity = modelMapper.map(dto, Tarefa.class);
+		entity = repository.save(entity);
+		return new TarefaDTO(entity);
+	}
 
 }
