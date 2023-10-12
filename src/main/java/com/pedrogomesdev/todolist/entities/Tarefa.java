@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+              
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,13 +24,9 @@ public class Tarefa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	private String nome;
-	
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
-	
 	private Realizado realizado;
 	private Prioridade prioridade;
-	
 }

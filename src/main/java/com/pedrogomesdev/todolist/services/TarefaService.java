@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrogomesdev.todolist.dto.TarefaDTO;
 import com.pedrogomesdev.todolist.entities.Tarefa;
 import com.pedrogomesdev.todolist.repositories.TarefaRepository;
+import com.pedrogomesdev.todolist.services.exceptions.NaoEncontradoExpection;
 
 @Service
 public class TarefaService {
@@ -41,17 +43,20 @@ public class TarefaService {
 	@Transactional
 	public TarefaDTO update(Long id, TarefaDTO dto) {
 		Tarefa entity = repository.getReferenceById(id);
-		entity = modelMapper.map(dto, Tarefa.class);
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.map(dto, entity);
 		entity = repository.save(entity);
 		return new TarefaDTO(entity);
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public void delete(Long id) {
 		if (!repository.existsById(id)) {
-
+			throw new NaoEncontradoExpection("Tarefa Inexistente!");
 		}
 		repository.deleteById(id);
 	}
+	
+	
 
 }
